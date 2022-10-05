@@ -5,11 +5,15 @@ import links
 import time
 from petr.return_a_petr import read_n_pick_petr
 
-file = open('scheduled.txt')
-lines = file.readlines()
-file.close()
+#file = open('scheduled.txt')
+#lines = file.readlines()
+#file.close()
+lines = []
 
-bot=commands.Bot(command_prefix='$')
+
+#intents = discord.Intents(messages=True)
+intents = discord.Intents.all()
+bot=commands.Bot(command_prefix='$', intents=intents)
 
 def check_time():
     """month,day,hr,min"""
@@ -27,24 +31,37 @@ def check_time():
 
 
 def bot_command():
-    line = f"Bot Commands: \n\n**$help** : list of bot commands\n\n**$due** : check assignments due\n\n**$full_schedule** : check full schedule\n\n**$resources** : check resources\n\n**$lecture** : Link to zoom lecture and password\n\n**$office_hour** : Office hour zoom link\n\n**$grade** : Link to grade estimator"
+    line = f"Bot Commands: \n\n" \
+            "**$help** : list of bot commands\n\n" \
+            "**$resources** : check resources\n\n" \
+            "**$office_hour** : Office hour zoom link\n\n" \
+            "**$grade** : Link to grade estimator"
+
+#            "**$lecture** : Link to zoom lecture and password\n\n" \
+            #**$due** : check assignments due\n\n
+            #**$full_schedule** : check full schedule\n\n
     return line
+
 @bot.event
 async def on_ready():
     print('Connecting ')
     print(f"Connecting to {bot.user.name} BOT")
     print('Connection Success')
     await bot.change_presence(status=discord.Status.online, activity=None)
+
 @bot.event
 async def initial_message():
     print("Bot Commands")
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
+
     if message.content.startswith('$help'):
         await message.channel.send(bot_command())
 
+    '''
     if message.content.startswith('$due'):
         x = check_time()
         month2 = x[0]
@@ -76,18 +93,20 @@ async def on_message(message):
             if int(month1) == int(month2):
                 if int(day1) >= int(day2):
                     await message.channel.send(f"{j[1]} in {j[0]} at {j[2]}")
+    '''
 
     if message.content.startswith('$resources'):
         link = links.resource_link
         await message.channel.send(link)
 
-    if message.content.startswith('$lecture'):
-        zoom = links.zoom_lec
-        await message.channel.send(f"zoom link to lecture is {zoom}. Password is DeBug")
+ #   if message.content.startswith('$lecture'):
+ #       zoom = links.zoom_lec
+ #       await message.channel.send(f"zoom link to lecture is {zoom}. Password is DeBug")
     
     if message.content.startswith('$office_hour'):
         oh = links.oh_link
-        await message.channel.send(f"zoom link to office hours: {oh}")
+        await message.channel.send(f"zoom link to LA office hours: {oh}")
+
     if message.content.startswith('$ohhhhhh'):
         await message.channel.send(f"https://c.tenor.com/Yjx_r38x1aYAAAAd/mind-blown-explosion.gif")
     
@@ -95,14 +114,14 @@ async def on_message(message):
         grade = links.grade_link
         await message.channel.send(f"Link to grade estimator: {grade}")
 
-    if message.content.startswith('$lakers'):
-        await message.channel.send(f"Lakers in 5!\n")
-        await message.channel.send('https://tenor.com/view/snoop-dogg-lakers-dance-gif-21628249')
+#    if message.content.startswith('$lakers'):
+#        await message.channel.send(f"Lakers in 5!\n")
+#        await message.channel.send('https://tenor.com/view/snoop-dogg-lakers-dance-gif-21628249')
 
 
     if message.content.lower() in ("$peter", "$petr"):
         petr = read_n_pick_petr("./petr/petrs.csv")
-        github_url = "https://raw.githubusercontent.com/printSANO/ics31_bot/main/petr/"
+        github_url = "https://raw.githubusercontent.com/MatthewPortman/ics31_bot/main/petr/"
         await message.channel.send(f"{github_url}{petr}")
     
     
