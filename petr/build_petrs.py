@@ -26,6 +26,7 @@ def determine_weights(petr_list:list) -> dict:
     weighted_dict["pEt3RRRRr.jpeg"] = very_rare
     weighted_dict["know_your_petr.jpeg"] = very_rare
     weighted_dict["high_quality_petr.png"] = pretty_rare
+    weighted_dict["dismayed_boba_enjoyr.png"] = pretty_rare
     weighted_dict["my_neighbor_petr-o.png"] = rare
     weighted_dict["piano_petr.jpeg"] = rare
     weighted_dict["ghostd_petr.png"] = rare
